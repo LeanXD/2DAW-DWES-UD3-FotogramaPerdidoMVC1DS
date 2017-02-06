@@ -8,21 +8,24 @@
 <title>El Fotograma Perdido MVC v1</title>
 </head>
 <body>
-Aquí se produce la petición de login y clave para un usuario registrado.
 <%
- BeanError error = (BeanError) request.getAttribute("error");
+ String error = (String) request.getAttribute("ErrorLogin");
  if (error!=null)
  {
-	 out.println("<br><b>"+error.getMensError()+"</b>");
+	 out.println("<br><b>"+error+"</b>");
  }
 %>
+<br/>
+<center>
 <form action="controlador" method="post">
 Login: <input type="text" name="login" value="">
 <br/>
-Password: <input type="password" name="password" value"">
+Password: <input type="password" name="clave" value"">
 <br/>
-<input name="accion" value="volver" type="submit">
+<br/>
+<input name="accion" value="Inicio" type="submit">
 <input name="accion" value="entrar" type="submit">
 </form>
+</center>
 </body>
 </html>

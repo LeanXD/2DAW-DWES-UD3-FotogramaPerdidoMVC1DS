@@ -51,9 +51,10 @@ public class Controlador extends HttpServlet {
 	// aplicación. 
 	    try {
 	    	InitialContext initCtx = new InitialContext();
-	    	setDsBdfotogramas((DataSource) initCtx.lookup("java:jboss/datasources/dsbdfotogramas"));
+	    	setDsBdfotogramas((DataSource) initCtx.lookup("java:jboss/datasources/bdfotogramas"));
 	    	if (getDsBdfotogramas()==null)
 	    		System.out.println("dsBdfotogramas es null.");
+
 	    	sc = config.getServletContext();
 	    	// El datasource se almacena a nivel de aplicación.
 	    	sc.setAttribute("dsBdfotogramas", getDsBdfotogramas());
@@ -116,6 +117,7 @@ public class Controlador extends HttpServlet {
 	    accion.setSc(sc);
 	    // Se proporciona el DataSource asociado al servlet a la acción
 	    accion.setDS (dsBdfotogramas);
+		System.out.println("dsBdfotogramas es "+ getDsBdfotogramas());
 	    // Se proporciona el ámbito de sesión
 	    accion.setSesion(sesion);
 	    // Se procesa la solicitud (lógica de empresa)

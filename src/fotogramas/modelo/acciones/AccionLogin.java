@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 
 import fotogramas.controlador.Accion;
 import fotogramas.modelo.beans.*;
+import sun.tracing.NullProviderFactory;
 
 /**
  * Procesa los datos de login y clave proporcionados por un usuario.
@@ -27,7 +28,7 @@ public class AccionLogin implements Accion {
 	// Aquí se deben declarar las propiedades de la acción
 	private String vista;
 	private final String vistaOK = "WEB-INF/concurso.jsp";
-	private final String vistaError = "gesError.jsp";
+	private String vistaError = "gesError.jsp";
 	//private final String vistaForm= "login.jsp";
 	private BeanUsuario modelo = new BeanUsuario();
 	
@@ -59,32 +60,60 @@ public class AccionLogin implements Accion {
 		Statement st = null;
 		ResultSet rs = null;
 		//Se debe implementar ajustándose al uso de datasource	
-		String login, clave;
+		String login, clave, puntos;
 		
 		//Si la accion es login, se valida el login.
-		//Se obtienen login y clave
+		//Se obtienen login y clave0
 		login = request.getParameter("login");
 		clave = request.getParameter("clave");
+		if(login!=null && clave != null){
 		try {
 			conexion = DS.getConnection();
 			st = conexion.createStatement();
-			rs = st.executeQuery("select login,clave from usuarios where login = '"+login+"'");
+			rs = st.executeQuery("select login, clave from usuarios where login = '"+login+"'");
 			if (rs.next()) {
 				if (!rs.getString("clave").equals(clave)) {
-					error = new BeanError(2,"La clave no coincide.");
+					vistaError = "login.jsp";
+					request.setAttribute("ErrorLogin", "La clave no coincide.");
 					resultado = false;
+				}else{
+					//Obtenemos la puntuación del usuario para ser mostrada;
+					rs = st.executeQuery("select puntos from ranking where login = '"+login+"'");
+					
+					//Controlamos si el usuario no a jugado ninguna partida aun
+					try{
+						puntos = Integer.toString(rs.getInt("puntos"));
+					}catch(NumberFormatException e){
+						puntos = "0";
+					}
+					
+					System.out.println("Logeado");
+					sesion.setAttribute("puntos", puntos);
+					
+					//Guardamos la conexión para futuras consultas
+					sesion.setAttribute("conexion", conexion);
+					
+					
+					//Guardamos el usuario logeado;
+					sesion.setAttribute("login", login);
+					resultado = true;
 				}
 			}
 			else
 			{
-				error = new BeanError(3,"El login no existe.");
+				vistaError = "login.jsp";
+				request.setAttribute("ErrorLogin", "La clave no coincide.");
 				resultado = false;
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 			error = new BeanError(1,"Error en conexión a base de datos",e);
 			resultado = false;
 		}
-		
+		}else{
+			resultado = false;
+			vistaError = "login.jsp";
+		}
 		if (resultado==true)
 			vista = vistaOK;
 		else

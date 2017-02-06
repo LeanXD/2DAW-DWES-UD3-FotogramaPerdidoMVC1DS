@@ -21,7 +21,7 @@ public class AccionIndex implements Accion {
 
 	// Aquí se deben declarar las propiedades de la acción
 	private String vista;
-	private final String vistaOK = "home.jsp";
+	private final String vistaOK = "index.html";
 	private final String vistaError = "gesError.jsp";
 	private final String vistaForm= "login.jsp";
 	private BeanUsuario modelo;
@@ -49,8 +49,8 @@ public class AccionIndex implements Accion {
 	public boolean ejecutar(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException 
 	{
-		setVista(vistaForm);
-		setModelo(new BeanUsuario());
+		setVista(vistaOK);
+		//setModelo(new BeanUsuario());
 		return false;
 	}
 
