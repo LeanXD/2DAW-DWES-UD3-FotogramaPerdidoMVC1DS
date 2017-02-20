@@ -4,6 +4,8 @@
 package fotogramas.modelo.acciones;
 
 import java.io.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -21,7 +23,7 @@ public class AccionIndex implements Accion {
 
 	// Aquí se deben declarar las propiedades de la acción
 	private String vista;
-	private final String vistaOK = "index.html";
+	private String vistaOK = "index.html";
 	private final String vistaError = "gesError.jsp";
 	private final String vistaForm= "login.jsp";
 	private BeanUsuario modelo;
@@ -49,6 +51,19 @@ public class AccionIndex implements Accion {
 	public boolean ejecutar(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException 
 	{
+		//Comprobamos si el usuario se encuentra conectado
+		Connection conexion = (Connection) sesion.getAttribute("conexion");
+		if(conexion!=null){
+			try {
+				if(!conexion.isClosed()){
+					vistaOK = "WEB-INF/concurso.jsp";
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		setVista(vistaOK);
 		//setModelo(new BeanUsuario());
 		return false;

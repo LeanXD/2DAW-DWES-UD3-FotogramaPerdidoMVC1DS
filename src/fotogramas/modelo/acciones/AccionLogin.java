@@ -71,38 +71,39 @@ public class AccionLogin implements Accion {
 			conexion = DS.getConnection();
 			st = conexion.createStatement();
 			rs = st.executeQuery("select login, clave from usuarios where login = '"+login+"'");
-			if (rs.next()) {
+			if(rs.next()){
 				if (!rs.getString("clave").equals(clave)) {
 					vistaError = "login.jsp";
 					request.setAttribute("ErrorLogin", "La clave no coincide.");
 					resultado = false;
 				}else{
+					resultado = true;
+					System.out.println("Aqui");
+					//Creamos el modelo
+					modelo = new BeanUsuario(rs.getString("login"), rs.getString("clave"));
+					
 					//Obtenemos la puntuación del usuario para ser mostrada;
 					rs = st.executeQuery("select puntos from ranking where login = '"+login+"'");
-					
+					rs.next();	
 					//Controlamos si el usuario no a jugado ninguna partida aun
 					try{
 						puntos = Integer.toString(rs.getInt("puntos"));
 					}catch(NumberFormatException e){
 						puntos = "0";
 					}
-					
-					System.out.println("Logeado");
-					sesion.setAttribute("puntos", puntos);
-					
+					sesion.setAttribute("puntos", puntos);						
 					//Guardamos la conexión para futuras consultas
 					sesion.setAttribute("conexion", conexion);
 					
+					//Aun que el controlador guarde el modelo en la sesión,
+					//yo lo guardo para poder ser utilizado en toda la página
 					
-					//Guardamos el usuario logeado;
-					sesion.setAttribute("login", login);
-					resultado = true;
+					sesion.setAttribute("usuario", modelo);
 				}
-			}
-			else
-			{
+			}else{
 				vistaError = "login.jsp";
-				request.setAttribute("ErrorLogin", "La clave no coincide.");
+				System.out.println("aqui");
+				request.setAttribute("ErrorLogin", "El usuario no existe.");
 				resultado = false;
 			}
 		} catch (SQLException e) {

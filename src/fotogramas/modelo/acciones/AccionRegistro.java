@@ -38,29 +38,18 @@ public class AccionRegistro implements Accion {
 		Connection conexion = null;
 		Statement st = null;
 		ResultSet rl = null;
-		int sy_code = 0;
 		if(login!=null && clave!=null){
 		try {
 			conexion = ds.getConnection();
 			st = conexion.createStatement();
 			rl = st.executeQuery("SELECT login, clave FROM usuarios WHERE login = '"+login+"'");
-			if(rl!=null){
-				if(!rl.getString("login").equals(login)){
-					sy_code = st.executeUpdate("INSERT INTO USUARIOS (login, clase) VALUES ('"+login+"', '"+clave+"')");
-					if(sy_code == 0){
-						
+			if(!rl.next()){
+				//!rl.getString("login").equals(login)
+					 	st.executeUpdate("INSERT INTO usuarios (login, clave) VALUES('"+login+"', '"+clave+"')");
 						//Insertamos al usuario en el ranking para mostrarlo en el ranking
-						st.executeUpdate("INSERT INTO RANKING (login, puntos) VALUES ('"+login+"', 0)");
+						st.executeUpdate("INSERT INTO ranking (login, puntos) VALUES('"+login+"', 0)");
 						resultado = true;
-					}else{
-						resultado = false;
-						error = new BeanError(1,"Error en el registro");
-					}
-				}else{
-					request.setAttribute("ErrorRegistrado", "El usuario introducido ya existe");
-					vistaError = "registro.jsp";
-					resultado = true;
-				}
+					
 			}else{
 				vistaError = "registro.jsp";
 				resultado = false;
@@ -68,6 +57,7 @@ public class AccionRegistro implements Accion {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
 			error = new BeanError(1,"Error en conexión a base de datos",e);
 			resultado = false;
 		}

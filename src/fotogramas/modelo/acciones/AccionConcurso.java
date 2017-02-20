@@ -2,6 +2,7 @@ package fotogramas.modelo.acciones;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -23,12 +24,19 @@ public class AccionConcurso implements Accion {
 	public boolean ejecutar(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		if((Connection)sesion.getAttribute("conexion")!=null){
-			vista = vistaOK;
-		}else{
-			vista = vistaError;
+		Connection conexion = (Connection)sesion.getAttribute("conexion");
+		if(conexion!=null){
+			try {
+				if(conexion.isClosed()){
+					vista = vistaError;
+				}else{
+					vista = vistaOK;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		
 		return true;
 	}
 

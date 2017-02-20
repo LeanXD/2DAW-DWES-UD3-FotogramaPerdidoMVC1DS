@@ -16,15 +16,22 @@ if(conexion != null){
 	 <P><jsp:include page="head.jsp" flush="true"/></P>
 	 <br/>
 	 <br/> 
-	<form action="controlador" method="post">
-		<input type="hidden" name="accion" value="ranking">
-	<input name="ranking" value="Ver ranking" type="submit" style="width: 84px; height: 33px">
-	</form>
-	
-	<form action="controlador" method="post">
-		<input type="hidden" name="accion" value="jugar">
-		<input name="jugar" value="Jugar" type="submit" style="width: 84px; height: 33px">
-	</form>
+	 <table align="center">
+		 <tr>
+		 	<td>
+				<form action="controlador" method="post">
+					<input type="hidden" name="accion" value="Ranking">
+				<input name="ranking" value="Ver ranking" type="submit" style="width: 84px; height: 33px">
+				</form>
+			</td>
+			<td>				
+				<form action="controlador" method="post">
+					<input type="hidden" name="accion" value="jugar">
+					<input name="jugar" value="Jugar" type="submit" style="width: 84px; height: 33px">
+				</form>
+			</td>
+		</tr>
+	</table>
 <% 
 }else{
 	

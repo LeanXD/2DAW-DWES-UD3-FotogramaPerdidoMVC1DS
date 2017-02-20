@@ -51,10 +51,10 @@ public class Controlador extends HttpServlet {
 	// aplicación. 
 	    try {
 	    	InitialContext initCtx = new InitialContext();
-	    	setDsBdfotogramas((DataSource) initCtx.lookup("java:jboss/datasources/bdfotogramas"));
-	    	if (getDsBdfotogramas()==null)
+	    	setDsBdfotogramas((DataSource) initCtx.lookup("java:jboss/datasources/dsbdfotogramas"));
+	    	if (getDsBdfotogramas()==null){
 	    		System.out.println("dsBdfotogramas es null.");
-
+	    	}
 	    	sc = config.getServletContext();
 	    	// El datasource se almacena a nivel de aplicación.
 	    	sc.setAttribute("dsBdfotogramas", getDsBdfotogramas());

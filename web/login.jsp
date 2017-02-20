@@ -8,6 +8,7 @@
 <title>El Fotograma Perdido MVC v1</title>
 </head>
 <body>
+<center>
 <%
  String error = (String) request.getAttribute("ErrorLogin");
  if (error!=null)
@@ -16,16 +17,36 @@
  }
 %>
 <br/>
-<center>
-<form action="controlador" method="post">
-Login: <input type="text" name="login" value="">
-<br/>
-Password: <input type="password" name="clave" value"">
-<br/>
-<br/>
-<input name="accion" value="Inicio" type="submit">
-<input name="accion" value="entrar" type="submit">
-</form>
+<h3>¡Bienvenido! Por favor logeate</h3>
+<table align="center">
+	<tr>
+		<td>
+			<form action="controlador" method="post">
+			Login: <input type="text" name="login" value="">
+			<br/>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Password: <input type="password" name="clave" value"">
+			<br/>
+			<br/>
+		</td>
+	</tr>
+</table>
+<table aling="center">
+	<tr>
+		<td>
+			<input name="accion" value="Entrar" type="submit">
+			</form>
+		</td>
+		<td>	
+			<form action="controlador" method="post">
+			<input name="accion" value="Inicio" type="submit">
+			</form>
+		</td>
+	</tr>
+</table>
 </center>
 </body>
 </html>

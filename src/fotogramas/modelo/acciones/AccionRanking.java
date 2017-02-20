@@ -23,7 +23,7 @@ public class AccionRanking implements Accion {
 	private ServletContext sc;
 	private HttpSession sesion;
 	private DataSource ds;
-	private final String vistaOK = "raking.jsp";
+	private final String vistaOK = "WEB-INF/ranking.jsp";
 	private String vistaError = "index.html";
 	private String vista;
 	private ArrayList<fotogramas.modelo.beans.BeanRanking> modelo;
@@ -42,14 +42,15 @@ public class AccionRanking implements Accion {
 		if(conexion!=null){
 			try {
 				st = conexion.createStatement();
-				rl = st.executeQuery("SELECT login, puntos FROM raking ORDER BY puntos DESC");
-				if(rl.next()){
-					while(rl.next()){
-						modelo.add(new BeanRanking(rl.getString("login"), rl.getInt("puntos")));
-					}
-				}else{
+				rl = st.executeQuery("SELECT login, puntos FROM ranking ORDER BY puntos DESC");
+				while(rl.next()){
+					modelo.add(new BeanRanking(rl.getString("login"), rl.getInt("puntos")));
+					System.out.println(rl.getString("login")+" "+Integer.toString(rl.getInt("puntos")));
+				}
+				if(modelo.size()<=0){	
 					sesion.setAttribute("errorRanking", "No hay participantes");
 				}
+				result = true;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				result = false;

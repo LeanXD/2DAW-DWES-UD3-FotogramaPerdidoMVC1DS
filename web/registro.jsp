@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Registrate</title>
-<%String error =  request.getParameter("ErrorRegistrado");%>
+<%String error =  (String) request.getAttribute("ErrorRegistrado");%>
 </head>
 <body>
 <center>
@@ -20,8 +20,10 @@
 		<br/>
 		<br/>
 		<input type="submit" name="button" value="Resgistrarme">
-		<input name="accion" value="Inicio" type="submit">
 		<input type="hidden" name="accion" value="registrar"/>
+	</form>
+	<form action="controlador" method="post">
+			<input name="accion" value="Inicio" type="submit">
 	</form>
 	<br/>
 	<br/>
