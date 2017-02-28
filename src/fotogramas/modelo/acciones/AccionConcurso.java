@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 
 import fotogramas.controlador.Accion;
 import fotogramas.modelo.beans.BeanError;
+import fotogramas.modelo.beans.BeanPartida;
 
 public class AccionConcurso implements Accion {
 		public String vistaOK = "WEB-INF/concurso.jsp";
@@ -26,6 +27,11 @@ public class AccionConcurso implements Accion {
 		// TODO Auto-generated method stub
 		Connection conexion = (Connection)sesion.getAttribute("conexion");
 		if(conexion!=null){
+			//Comprobamos si el usuario tiene alguna partida almacenada
+			if((BeanPartida)sesion.getAttribute("partida")!=null){
+				//Eliminamos la partida anterior.
+				sesion.removeAttribute("partida");
+			}
 			try {
 				if(conexion.isClosed()){
 					vista = vistaError;

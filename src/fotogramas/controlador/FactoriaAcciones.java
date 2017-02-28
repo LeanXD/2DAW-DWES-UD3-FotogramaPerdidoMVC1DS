@@ -34,6 +34,10 @@ public abstract class FactoriaAcciones {
 		      accionF = new AccionRegistro();
 		    if(accion.equals("Ranking"))
 		    	accionF = new AccionRanking();
+		    if(accion.equals("jugar"))
+		    	accionF = new AccionPartida();
+		    if(accion.equals("Fin Partida"))
+		    	accionF = new AccionPartida();
 		}
 	    return accionF;
 	  }
